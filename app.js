@@ -12,13 +12,13 @@ const ThemeManager = {
         // Check for saved preference or system preference
         const savedTheme = localStorage.getItem('sendit-theme');
         const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
+
         if (savedTheme) {
             document.documentElement.setAttribute('data-theme', savedTheme);
         } else if (!systemDark) {
             document.documentElement.setAttribute('data-theme', 'light');
         }
-        
+
         // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!localStorage.getItem('sendit-theme')) {
@@ -26,14 +26,14 @@ const ThemeManager = {
             }
         });
     },
-    
+
     toggle() {
         const current = document.documentElement.getAttribute('data-theme');
         const newTheme = current === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('sendit-theme', newTheme);
     },
-    
+
     get isDark() {
         return document.documentElement.getAttribute('data-theme') !== 'light';
     }
@@ -150,22 +150,22 @@ function formatSpeed(bytesPerSecond) {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    
-    const iconSvg = type === 'success' 
+
+    const iconSvg = type === 'success'
         ? '<path d="M20 6L9 17l-5-5"/>'
         : type === 'error'
-        ? '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6m0-6 6 6"/>'
-        : '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/>';
-    
+            ? '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6m0-6 6 6"/>'
+            : '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/>';
+
     toast.innerHTML = `
         <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             ${iconSvg}
         </svg>
         <span class="toast-message">${message}</span>
     `;
-    
+
     elements.toastContainer.appendChild(toast);
-    
+
     setTimeout(() => {
         toast.classList.add('removing');
         setTimeout(() => toast.remove(), 300);
@@ -213,29 +213,29 @@ class SimpleSignaling {
 
     send(message) {
         if (!this.roomCode) return;
-        
+
         const roomData = JSON.parse(localStorage.getItem(`room_${this.roomCode}`) || '{}');
         if (!roomData.messages) roomData.messages = [];
-        
+
         roomData.messages.push({
             id: Date.now(),
             from: this.isHost ? 'host' : 'guest',
             data: message
         });
-        
+
         localStorage.setItem(`room_${this.roomCode}`, JSON.stringify(roomData));
     }
 
     startPolling() {
         this.pollInterval = setInterval(() => {
             if (!this.roomCode) return;
-            
+
             const roomData = JSON.parse(localStorage.getItem(`room_${this.roomCode}`) || '{}');
             const messages = roomData.messages || [];
-            
+
             const sender = this.isHost ? 'guest' : 'host';
             const newMessages = messages.filter(m => m.from === sender && m.id > this.lastMessageId);
-            
+
             newMessages.forEach(msg => {
                 this.lastMessageId = msg.id;
                 if (this.onMessage) {
@@ -278,7 +278,7 @@ async function createPeerConnection() {
     state.peerConnection.onconnectionstatechange = () => {
         const status = state.peerConnection.connectionState;
         updateConnectionStatus(status);
-        
+
         if (status === 'connected') {
             showToast('Peer connected! Ready to share files.', 'success');
         } else if (status === 'disconnected' || status === 'failed') {
@@ -296,7 +296,7 @@ async function createPeerConnection() {
 
 function setupDataChannel() {
     state.dataChannel.binaryType = 'arraybuffer';
-    
+
     state.dataChannel.onopen = () => {
         updateConnectionStatus('connected');
         elements.btnSendFiles.disabled = state.selectedFiles.length === 0;
@@ -313,7 +313,7 @@ function setupDataChannel() {
 function handleDataChannelMessage(event) {
     if (typeof event.data === 'string') {
         const message = JSON.parse(event.data);
-        
+
         switch (message.type) {
             case 'file-start':
                 startReceivingFile(message);
@@ -341,39 +341,39 @@ function startReceivingFile(message) {
         received: 0,
         startTime: Date.now()
     };
-    
+
     addTransferItem(message.id, message.name, message.size, 'download');
 }
 
 function receiveFileChunk(chunk) {
     if (!state.receivingFile) return;
-    
+
     state.receivingFile.chunks.push(chunk);
     state.receivingFile.received += chunk.byteLength;
-    
+
     const progress = (state.receivingFile.received / state.receivingFile.size) * 100;
     const elapsed = (Date.now() - state.receivingFile.startTime) / 1000;
     const speed = state.receivingFile.received / elapsed;
-    
+
     updateTransferProgress(state.receivingFile.id, progress, speed);
 }
 
 function finishReceivingFile(message) {
     if (!state.receivingFile || state.receivingFile.id !== message.id) return;
-    
+
     const blob = new Blob(state.receivingFile.chunks, { type: state.receivingFile.type });
     const url = URL.createObjectURL(blob);
-    
+
     state.receivedFiles.set(message.id, {
         name: state.receivingFile.name,
         size: state.receivingFile.size,
         url: url,
         blob: blob
     });
-    
+
     completeTransfer(message.id);
     addReceivedFile(message.id, state.receivingFile.name, state.receivingFile.size, url);
-    
+
     showToast(`Received: ${state.receivingFile.name}`, 'success');
     state.receivingFile = null;
 }
@@ -387,7 +387,7 @@ async function sendFiles() {
     for (const file of state.selectedFiles) {
         await sendFile(file);
     }
-    
+
     state.selectedFiles = [];
     updateSelectedFilesUI();
     showToast('All files sent successfully!', 'success');
@@ -395,7 +395,7 @@ async function sendFiles() {
 
 async function sendFile(file) {
     const fileId = Date.now().toString();
-    
+
     // Send file start message
     state.dataChannel.send(JSON.stringify({
         type: 'file-start',
@@ -404,39 +404,39 @@ async function sendFile(file) {
         size: file.size,
         type: file.type
     }));
-    
+
     addTransferItem(fileId, file.name, file.size, 'upload');
-    
+
     // Read and send file in chunks
     const reader = file.stream().getReader();
     let offset = 0;
     const startTime = Date.now();
-    
+
     while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         // Wait for buffer to drain if necessary
         while (state.dataChannel.bufferedAmount > CONFIG.CHUNK_SIZE * 10) {
             await new Promise(resolve => setTimeout(resolve, 10));
         }
-        
+
         state.dataChannel.send(value);
         offset += value.byteLength;
-        
+
         const progress = (offset / file.size) * 100;
         const elapsed = (Date.now() - startTime) / 1000;
         const speed = offset / elapsed;
-        
+
         updateTransferProgress(fileId, progress, speed);
     }
-    
+
     // Send file end message
     state.dataChannel.send(JSON.stringify({
         type: 'file-end',
         id: fileId
     }));
-    
+
     completeTransfer(fileId);
 }
 
@@ -446,59 +446,59 @@ async function sendFile(file) {
 
 async function createRoom() {
     const roomCode = generateRoomCode();
-    
+
     state.signalingSocket = new SimpleSignaling();
     await state.signalingSocket.createRoom(roomCode);
-    
+
     state.signalingSocket.onMessage = handleSignalingMessage;
-    
+
     await createPeerConnection();
-    
+
     // Create data channel as host
     state.dataChannel = state.peerConnection.createDataChannel('fileTransfer', {
         ordered: true
     });
     setupDataChannel();
-    
+
     state.roomCode = roomCode;
     state.isHost = true;
-    
+
     showRoomPanel();
     showToast('Room created! Share the code with your peer.', 'success');
 }
 
 async function joinRoom() {
     const roomCode = elements.roomCodeInput.value.toUpperCase().trim();
-    
+
     if (roomCode.length !== CONFIG.ROOM_CODE_LENGTH) {
         showToast('Please enter a valid room code', 'error');
         return;
     }
-    
+
     state.signalingSocket = new SimpleSignaling();
     const joined = await state.signalingSocket.joinRoom(roomCode);
-    
+
     if (!joined) {
         showToast('Room not found. Check the code and try again.', 'error');
         return;
     }
-    
+
     state.signalingSocket.onMessage = handleSignalingMessage;
-    
+
     await createPeerConnection();
-    
+
     state.roomCode = roomCode;
     state.isHost = false;
-    
+
     // Create and send offer
     const offer = await state.peerConnection.createOffer();
     await state.peerConnection.setLocalDescription(offer);
-    
+
     state.signalingSocket.send({
         type: 'offer',
         sdp: state.peerConnection.localDescription
     });
-    
+
     showRoomPanel();
     showToast('Joining room...', 'info');
 }
@@ -514,11 +514,11 @@ async function handleSignalingMessage(message) {
                 sdp: state.peerConnection.localDescription
             });
             break;
-            
+
         case 'answer':
             await state.peerConnection.setRemoteDescription(new RTCSessionDescription(message.sdp));
             break;
-            
+
         case 'ice-candidate':
             if (message.candidate) {
                 await state.peerConnection.addIceCandidate(new RTCIceCandidate(message.candidate));
@@ -559,9 +559,9 @@ function showConnectionPanel() {
 function updateConnectionStatus(status) {
     const statusEl = elements.connectionStatus;
     const textEl = statusEl.querySelector('.status-text');
-    
+
     statusEl.classList.remove('connected');
-    
+
     switch (status) {
         case 'connected':
             statusEl.classList.add('connected');
@@ -583,7 +583,7 @@ function updateSelectedFilesUI() {
     const hasFiles = state.selectedFiles.length > 0;
     elements.selectedFiles.classList.toggle('has-files', hasFiles);
     elements.btnSendFiles.disabled = !hasFiles || !state.dataChannel || state.dataChannel.readyState !== 'open';
-    
+
     elements.filesList.innerHTML = state.selectedFiles.map((file, index) => `
         <div class="file-item" data-index="${index}">
             <div class="file-icon">${getFileIcon()}</div>
@@ -598,7 +598,7 @@ function updateSelectedFilesUI() {
             </button>
         </div>
     `).join('');
-    
+
     // Add remove handlers
     elements.filesList.querySelectorAll('.file-remove').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -611,15 +611,15 @@ function updateSelectedFilesUI() {
 
 function addTransferItem(id, name, size, direction) {
     elements.transfersSection.classList.add('has-transfers');
-    
+
     const item = document.createElement('div');
     item.className = 'transfer-item';
     item.id = `transfer-${id}`;
-    
-    const dirIcon = direction === 'upload' 
+
+    const dirIcon = direction === 'upload'
         ? '<path d="M12 19V5m-7 7 7-7 7 7"/>'
         : '<path d="M12 5v14m7-7-7 7-7-7"/>';
-    
+
     item.innerHTML = `
         <div class="transfer-header">
             <div class="transfer-direction ${direction}">
@@ -639,17 +639,17 @@ function addTransferItem(id, name, size, direction) {
             <div class="progress-fill" style="width: 0%"></div>
         </div>
     `;
-    
+
     elements.transfersList.appendChild(item);
 }
 
 function updateTransferProgress(id, progress, speed) {
     const item = document.getElementById(`transfer-${id}`);
     if (!item) return;
-    
+
     const fill = item.querySelector('.progress-fill');
     const speedEl = item.querySelector('.transfer-speed');
-    
+
     fill.style.width = `${progress}%`;
     speedEl.textContent = formatSpeed(speed);
 }
@@ -657,7 +657,7 @@ function updateTransferProgress(id, progress, speed) {
 function completeTransfer(id) {
     const item = document.getElementById(`transfer-${id}`);
     if (!item) return;
-    
+
     item.classList.add('completed');
     const fill = item.querySelector('.progress-fill');
     fill.style.width = '100%';
@@ -665,10 +665,10 @@ function completeTransfer(id) {
 
 function addReceivedFile(id, name, size, url) {
     elements.receivedSection.classList.add('has-files');
-    
+
     const item = document.createElement('div');
     item.className = 'received-item';
-    
+
     item.innerHTML = `
         <div class="file-icon">${getFileIcon()}</div>
         <div class="file-info">
@@ -684,7 +684,7 @@ function addReceivedFile(id, name, size, url) {
             Download
         </a>
     `;
-    
+
     elements.receivedList.appendChild(item);
 }
 
@@ -722,7 +722,7 @@ elements.dropZone.addEventListener('dragleave', () => {
 elements.dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     elements.dropZone.classList.remove('dragover');
-    
+
     const files = Array.from(e.dataTransfer.files);
     state.selectedFiles.push(...files);
     updateSelectedFilesUI();
@@ -746,4 +746,4 @@ elements.btnSendFiles.addEventListener('click', sendFiles);
 // Initialize
 // ============================================
 
-console.log('🚀 FlashShare initialized - Privacy-first P2P file transfer');
+console.log('🚀 SendIt initialized - Privacy-first P2P file transfer');

@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "FlashShare",
-    "slug": "flashshare",
+    "name": "SendIt",
+    "slug": "sendit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#0a0e1a",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#0a0e1a"
     },
@@ -17,15 +17,15 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.flashshare.app",
+      "bundleIdentifier": "com.sendit.app",
       "backgroundColor": "#0a0e1a",
       "infoPlist": {
-        "NSLocalNetworkUsageDescription": "FlashShare needs local network access for P2P file transfers",
-        "NSPhotoLibraryUsageDescription": "FlashShare needs access to your photos to share them with other devices",
-        "NSPhotoLibraryAddUsageDescription": "FlashShare needs permission to save received photos",
-        "NSCameraUsageDescription": "FlashShare can use camera to take photos to share",
+        "NSLocalNetworkUsageDescription": "SendIt needs local network access for P2P file transfers",
+        "NSPhotoLibraryUsageDescription": "SendIt needs access to your photos to share them with other devices",
+        "NSPhotoLibraryAddUsageDescription": "SendIt needs permission to save received photos",
+        "NSCameraUsageDescription": "SendIt can use camera to take photos to share",
         "NSBonjourServices": [
-          "_flashshare._tcp"
+          "_sendit._tcp"
         ]
       }
     },
@@ -34,7 +34,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0a0e1a"
       },
-      "package": "com.flashshare.app",
+      "package": "com.sendit.app",
       "backgroundColor": "#0a0e1a",
       "navigationBarColor": "#0a0e1a",
       "softwareKeyboardLayoutMode": "pan",
@@ -61,20 +61,20 @@
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow FlashShare to access your photos to share them.",
-          "savePhotosPermission": "Allow FlashShare to save received photos."
+          "photosPermission": "Allow SendIt to access your photos to share them.",
+          "savePhotosPermission": "Allow SendIt to save received photos."
         }
       ],
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow FlashShare to access camera for QR code scanning."
+          "cameraPermission": "Allow SendIt to access camera for QR code scanning."
         }
       ]
     ],
     "extra": {
       "eas": {
-        "projectId": "flashshare-p2p"
+        "projectId": "sendit-p2p"
       }
     }
   }

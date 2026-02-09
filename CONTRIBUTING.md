@@ -62,7 +62,7 @@ Feature suggestions are welcome! Please:
 
 2. **Clone your fork**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/SendIt.git
+   git clone https://github.com/aniketmishra-0/SendIt.git
    cd SendIt
    ```
 

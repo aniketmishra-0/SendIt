@@ -1,47 +1,55 @@
-# 🚀 SendIt - Ultra-Speed P2P File Transfer
-
 <div align="center">
 
-![SendIt Logo](https://img.shields.io/badge/SendIt-v1.0.0-gradient?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNIDYyIDI4IEMgMzUgMjggMzUgNDQgNTAgNTAgQyA2NSA1NiA2NSA3MiAzOCA3MiIgc3Ryb2tlPSIjRjU5RTBCIiBzdHJva2Utd2lkdGg9IjEwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=&labelColor=1a1a2e&color=F59E0B)
+# ⚡ SendIt
 
-![Platform](https://img.shields.io/badge/Platform-Web%20|%20Android%20|%20iOS-a855f7?style=for-the-badge&logo=react&labelColor=1a1a2e)
-![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge&logo=opensourceinitiative&labelColor=1a1a2e)
-![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-00d4ff?style=for-the-badge&logo=github&labelColor=1a1a2e)
+### Ultra-Speed P2P File Transfer
 
-**A privacy-first, cross-platform file sharing application with end-to-end encryption and peer-to-peer transfer technology.**
+<img src="https://img.shields.io/badge/Version-1.0.0-F59E0B?style=for-the-badge&labelColor=0a0a0a" alt="Version"/>
+<img src="https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge&labelColor=0a0a0a" alt="License"/>
+<img src="https://img.shields.io/badge/PRs-Welcome-00d4ff?style=for-the-badge&labelColor=0a0a0a" alt="PRs Welcome"/>
 
-[🌐 Live Demo](https://your-demo-url.com) • [📱 Download App](https://your-app-url.com) • [📖 Documentation](#documentation) • [🤝 Contributing](CONTRIBUTING.md)
+<br/>
 
-</div>
+**🔐 Privacy-First • 🚀 Ultra-Fast • 🌐 Cross-Platform**
+
+*Share files instantly with end-to-end encryption. No servers storing your files. No accounts required.*
+
+<br/>
+
+[🌐 **Live Demo**](https://aniketmishra-0.github.io/SendIt) &nbsp;•&nbsp; [📱 **Download App**](#-quick-start) &nbsp;•&nbsp; [🤝 **Contribute**](CONTRIBUTING.md)
+
+<br/>
 
 ---
+
+</div>
 
 ## ✨ Features
 
 <table>
 <tr>
-<td width="50%">
+<td width="50%" valign="top">
 
-### 🚀 Ultra-Fast Transfer
-Direct P2P file transfer for maximum speed without server bottlenecks
+### 🚀 Lightning Fast
+Direct peer-to-peer transfer at **25-50 MB/s** on local WiFi. No server bottlenecks.
 
-### 🔒 End-to-End Encryption
-AES-256 encryption ensures only you and your peer can see the files
+### 🔒 End-to-End Encrypted  
+**AES-256** encryption ensures only you and your recipient can see the files.
 
 ### 🌐 Cross-Platform
-Works seamlessly on Web, Android, iOS, Windows, and Mac
+Works on **Android**, **iOS**, **Windows**, **Mac**, and any **Web Browser**.
 
 </td>
-<td width="50%">
+<td width="50%" valign="top">
 
-### 🔐 Privacy First
-No data collection, no file storage on servers - your data is yours
+### 📵 No Data Collection
+Zero tracking, zero analytics. Your privacy is our priority.
 
-### 📱 Room-Based Connection
-Easy pairing with simple 6-digit room codes
+### 🔗 Simple Room Codes
+Connect instantly with **6-digit room codes** or **QR codes**.
 
-### 📊 Real-Time Progress
-See transfer speed and progress in real-time
+### 📁 Any File Type
+Share photos, videos, documents, music, and even **APK files**.
 
 </td>
 </tr>
@@ -51,38 +59,47 @@ See transfer speed and progress in real-time
 
 ## 📂 Project Structure
 
-This repository contains two applications:
-
 ```
 SendIt/
-├── 🌐 Web Application (Root)
-│   ├── index.html          # Web app entry point
-│   ├── app.js              # P2P and WebRTC logic
-│   ├── styles.css          # Glassmorphism dark theme
-│   └── assets/             # Icons and images
 │
-└── 📱 FlashShare/ (Mobile App)
-    ├── App.tsx             # React Native entry
-    ├── src/
-    │   ├── components/     # Reusable UI components
-    │   ├── screens/        # App screens
-    │   ├── services/       # P2P and signaling services
-    │   └── utils/          # Utilities and theme
-    └── package.json        # Dependencies
+├── 🌐 Web Application (Root)
+│   ├── index.html          # Landing page
+│   ├── app.js              # P2P logic & WebRTC
+│   ├── styles.css          # Glassmorphism UI
+│   └── assets/             # Logos & icons
+│
+├── 📱 Mobile App (SendIt/)
+│   ├── App.tsx             # React Native entry
+│   ├── src/
+│   │   ├── screens/        # HomeScreen, RoomScreen
+│   │   ├── components/     # QRScanner, QRDisplay
+│   │   ├── services/       # P2PService
+│   │   └── utils/          # Theme system
+│   └── package.json
+│
+├── 📚 Documentation
+│   ├── CONTRIBUTING.md     # How to contribute
+│   ├── CODE_OF_CONDUCT.md  # Community guidelines
+│   ├── ROADMAP.md          # Future plans
+│   └── LICENSE             # MIT License
+│
+└── 🔧 Configuration
+    ├── .github/            # Issue/PR templates
+    └── .gitignore          # Git ignore rules
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Tech Stack
 
 | Component | Technology |
 |-----------|------------|
-| **Web Framework** | Vanilla JS with WebRTC |
-| **Mobile Framework** | React Native (Expo) |
-| **Language** | TypeScript / JavaScript |
+| **Web App** | Vanilla JavaScript + WebRTC |
+| **Mobile App** | React Native (Expo) + TypeScript |
 | **P2P Protocol** | WebRTC Data Channels |
 | **Encryption** | AES-256 End-to-End |
 | **UI Theme** | Custom Glassmorphism Dark |
+| **Build System** | EAS Build (Expo) |
 
 ---
 
@@ -90,94 +107,98 @@ SendIt/
 
 ### Prerequisites
 
-- **Node.js** 18 or higher
-- **npm** or **yarn**
-- For mobile: **Android Studio** / **Xcode**
+```bash
+Node.js 18+   •   npm or yarn   •   Git
+```
 
-### 🌐 Run Web Application
+### 🌐 Run Web App
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/SendIt.git
+git clone https://github.com/aniketmishra-0/SendIt.git
+cd SendIt
+
+# Start local server
+npm start
+
+# Open http://localhost:5000
+```
+
+### 📱 Run Mobile App
+
+```bash
+# Navigate to mobile app folder
 cd SendIt
 
 # Install dependencies
 npm install
 
-# Start the web server
-npm start
-```
-
-The web app will be available at `http://localhost:5000`
-
-### 📱 Run Mobile Application
-
-```bash
-# Navigate to mobile app
-cd FlashShare
-
-# Install dependencies
-npm install
-
-# Start Expo development server
+# Start Expo
 npm start
 
-# Run on specific platform
-npm run android    # Android
-npm run ios        # iOS (Mac only)
-npm run web        # Web browser
+# Scan QR code with Expo Go app
 ```
 
 ---
 
-## 📱 Building for Production
+## 📱 Build for Production
 
-### Android APK
+<details>
+<summary><b>🤖 Android APK</b></summary>
 
 ```bash
-cd FlashShare
+cd SendIt
 
-# Using EAS Build (Recommended)
+# Using EAS Build (Cloud - Recommended)
 npm install -g eas-cli
 eas login
 npm run build:android
 
-# Local build (requires Android Studio)
+# Local Build (Requires Android Studio)
 npx expo run:android --variant release
 ```
 
-### iOS Build
+</details>
+
+<details>
+<summary><b>🍎 iOS Build</b></summary>
 
 ```bash
-# Using EAS Build (requires Apple Developer account)
+# Requires Apple Developer Account
 npm run build:ios
 ```
 
-### Web Build
+</details>
+
+<details>
+<summary><b>🌐 Web Build</b></summary>
 
 ```bash
-# Export for static hosting
 npm run build:web
-# Deploy 'dist' folder to Vercel, Netlify, etc.
+# Deploy 'dist' folder to Vercel, Netlify, or GitHub Pages
 ```
+
+</details>
 
 ---
 
 ## 🔒 Security & Privacy
 
-SendIt is built with **privacy at its core**:
+<div align="center">
 
 | Feature | Description |
 |---------|-------------|
-| 🚫 **No Server Storage** | Files transferred directly between devices |
-| 🔐 **E2E Encryption** | AES-256 encryption for all transfers |
+| 🚫 **No Server Storage** | Files transfer directly between devices |
+| 🔐 **E2E Encryption** | AES-256 bit encryption for all transfers |
 | 📵 **No Analytics** | Zero tracking or data collection |
 | 👤 **No Accounts** | Use immediately without sign-up |
 | 🔓 **Open Source** | Fully auditable code |
 
+</div>
+
 ---
 
-## 🌐 How P2P Works
+## 🔄 How P2P Works
 
 ```
 ┌─────────────────┐                           ┌─────────────────┐
@@ -193,30 +214,30 @@ SendIt is built with **privacy at its core**:
 └─────────────────┘                           └─────────────────┘
 ```
 
-1. **Room Creation** - Generate a unique 6-digit code
-2. **Signaling** - Exchange connection info via signaling server
-3. **P2P Connection** - Establish direct WebRTC connection
-4. **File Transfer** - Send files directly between devices
-5. **Encryption** - All data is encrypted end-to-end
-
 ---
 
 ## 🤝 Contributing
 
-We love contributions! See our [Contributing Guidelines](CONTRIBUTING.md) for details.
+We love contributions! Here's how you can help:
 
-### Quick Links
+1. 🍴 **Fork** the repository
+2. 🌿 **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. 💾 **Commit** your changes (`git commit -m 'feat: add amazing feature'`)
+4. 📤 **Push** to the branch (`git push origin feature/amazing-feature`)
+5. 🔃 **Open** a Pull Request
 
-- 📋 [Code of Conduct](CODE_OF_CONDUCT.md)
-- 🐛 [Report a Bug](https://github.com/YOUR_USERNAME/SendIt/issues/new?template=bug_report.md)
-- 💡 [Request a Feature](https://github.com/YOUR_USERNAME/SendIt/issues/new?template=feature_request.md)
-- 📖 [Development Setup](CONTRIBUTING.md#development-setup)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-### Contributors
+---
 
-<a href="https://github.com/YOUR_USERNAME/SendIt/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=YOUR_USERNAME/SendIt" />
-</a>
+## 📋 Quick Links
+
+| Link | Description |
+|------|-------------|
+| [📋 Code of Conduct](CODE_OF_CONDUCT.md) | Community guidelines |
+| [🐛 Report Bug](https://github.com/aniketmishra-0/SendIt/issues/new?template=bug_report.md) | Found a bug? Let us know |
+| [💡 Request Feature](https://github.com/aniketmishra-0/SendIt/issues/new?template=feature_request.md) | Have an idea? Share it |
+| [🗺️ Roadmap](ROADMAP.md) | See what's planned |
 
 ---
 
@@ -226,22 +247,20 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## ⭐ Support
-
-If you find this project useful, please consider:
-
-- ⭐ **Starring** this repository
-- 🐛 **Reporting bugs** you find
-- 💡 **Suggesting features** you'd like
-- 🤝 **Contributing** code or documentation
-- 📢 **Sharing** with friends and colleagues
-
----
-
 <div align="center">
 
-**Made with ❤️ for privacy-conscious users**
+### ⭐ Star this repo if you found it useful!
 
-[⬆ Back to Top](#-sendit---ultra-speed-p2p-file-transfer)
+<br/>
+
+**Made with ❤️ by [Aniket Mishra](https://github.com/aniketmishra-0)**
+
+<br/>
+
+*Privacy First • Open Source • Built for Everyone*
+
+<br/>
+
+[⬆ Back to Top](#-sendit)
 
 </div>

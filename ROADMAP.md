@@ -31,4 +31,4 @@ This document outlines the high-level goals and planned features for SendIt. We 
 ---
 
 ## 💡 Have an idea?
-Feel free to open a [Feature Request](https://github.com/YOUR_USERNAME/SendIt/issues/new?template=feature_request.md) if you have an idea that's not listed here!
+Feel free to open a [Feature Request](https://github.com/aniketmishra-0/SendIt/issues/new?template=feature_request.md) if you have an idea that's not listed here!
