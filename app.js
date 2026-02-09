@@ -15,8 +15,10 @@ const ThemeManager = {
 
         if (savedTheme) {
             document.documentElement.setAttribute('data-theme', savedTheme);
-        } else if (!systemDark) {
-            document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+            // Default to dark theme, or light if system prefers light
+            const defaultTheme = systemDark ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', defaultTheme);
         }
 
         // Listen for system theme changes
@@ -29,13 +31,16 @@ const ThemeManager = {
 
     toggle() {
         const current = document.documentElement.getAttribute('data-theme');
-        const newTheme = current === 'light' ? 'dark' : 'light';
+        // If no theme is set or it's dark, switch to light. Otherwise switch to dark.
+        const newTheme = (!current || current === 'dark') ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('sendit-theme', newTheme);
+        console.log('Theme switched to:', newTheme);
     },
 
     get isDark() {
-        return document.documentElement.getAttribute('data-theme') !== 'light';
+        const theme = document.documentElement.getAttribute('data-theme');
+        return !theme || theme === 'dark';
     }
 };
 
