@@ -750,6 +750,14 @@ elements.btnClearFiles.addEventListener('click', () => {
 
 elements.btnSendFiles.addEventListener('click', sendFiles);
 
+// Theme toggle button event listener
+const themeToggleBtn = document.getElementById('theme-toggle');
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        ThemeManager.toggle();
+    });
+}
+
 // ============================================
 // Initialize
 // ============================================
