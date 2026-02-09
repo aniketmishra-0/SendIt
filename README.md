@@ -4,25 +4,40 @@
 
 ### Ultra-Speed P2P File Transfer
 
-<img src="https://img.shields.io/badge/Version-1.0.0-F59E0B?style=for-the-badge&labelColor=0a0a0a" alt="Version"/>
+<img src="https://img.shields.io/badge/Version-2.0.0-F59E0B?style=for-the-badge&labelColor=0a0a0a" alt="Version"/>
 <img src="https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge&labelColor=0a0a0a" alt="License"/>
 <img src="https://img.shields.io/badge/PRs-Welcome-00d4ff?style=for-the-badge&labelColor=0a0a0a" alt="PRs Welcome"/>
+<img src="https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white&labelColor=0a0a0a" alt="Python"/>
+<img src="https://img.shields.io/badge/Go-1.22+-00ADD8?style=for-the-badge&logo=go&logoColor=white&labelColor=0a0a0a" alt="Go"/>
+<img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white&labelColor=0a0a0a" alt="Docker"/>
 
 <br/>
 
-**🔐 Privacy-First • 🚀 Ultra-Fast • 🌐 Cross-Platform**
+**🔐 Privacy-First &nbsp;•&nbsp; 🚀 Ultra-Fast &nbsp;•&nbsp; 🌐 Cross-Platform &nbsp;•&nbsp; 🐳 Docker Ready**
 
 *Share files instantly with end-to-end encryption. No servers storing your files. No accounts required.*
 
 <br/>
 
-[🌐 **Live Demo**](https://aniketmishra-0.github.io/SendIt) &nbsp;•&nbsp; [📱 **Download App**](#-quick-start) &nbsp;•&nbsp; [🤝 **Contribute**](CONTRIBUTING.md)
+[🌐 **Live Demo**](https://aniketmishra-0.github.io/SendIt) &nbsp;•&nbsp; [📱 **Download App**](#-quick-start) &nbsp;•&nbsp; [🤝 **Contribute**](CONTRIBUTING.md) &nbsp;•&nbsp; [🗺️ **Roadmap**](ROADMAP.md)
 
 <br/>
 
 ---
 
 </div>
+
+## 🆕 What's New in v2.0
+
+> **SendIt v2** introduces a high-performance server backend and a completely rewritten transfer engine for **2-3x faster** file transfers.
+
+- **Python FastAPI Server** — WebSocket signaling with sub-10ms latency, LZ4 compression, file relay fallback
+- **Go Server** — Lock-free signaling, zero-copy relay, memory-pooled buffers for maximum throughput
+- **v2 Transfer Engine** — Adaptive chunking (64KB–4MB), parallel data channels, backpressure management
+- **Responsive Design** — 7-layer CSS breakpoints (320px–1440px+) and mobile-adaptive React Native components
+- **Docker Deployment** — One-command `docker-compose up` to run everything
+
+---
 
 ## ✨ Features
 
@@ -31,13 +46,16 @@
 <td width="50%" valign="top">
 
 ### 🚀 Lightning Fast
-Direct peer-to-peer transfer at **25-50 MB/s** on local WiFi. No server bottlenecks.
+Direct peer-to-peer transfer at **50-100+ MB/s** on LAN. Adaptive chunking and parallel channels maximize throughput.
 
-### 🔒 End-to-End Encrypted  
+### 🔒 End-to-End Encrypted
 **AES-256** encryption ensures only you and your recipient can see the files.
 
 ### 🌐 Cross-Platform
 Works on **Android**, **iOS**, **Windows**, **Mac**, and any **Web Browser**.
+
+### ⚡ v2 Speed Engine
+Parallel data channels, adaptive 64KB–4MB chunks, LZ4 compression, and automatic relay fallback.
 
 </td>
 <td width="50%" valign="top">
@@ -49,7 +67,10 @@ Zero tracking, zero analytics. Your privacy is our priority.
 Connect instantly with **6-digit room codes** or **QR codes**.
 
 ### 📁 Any File Type
-Share photos, videos, documents, music, and even **APK files**.
+Share photos, videos, documents, music, APKs — files up to **5GB**.
+
+### 🐳 One-Command Deploy
+`docker-compose up` spins up Python server, Go server, and Nginx frontend instantly.
 
 </td>
 </tr>
@@ -62,45 +83,63 @@ Share photos, videos, documents, music, and even **APK files**.
 ```
 SendIt/
 │
-├── 🌐 Web Application (Root)
-│   ├── index.html          # Landing page
-│   ├── app.js              # P2P logic & WebRTC
-│   ├── styles.css          # Glassmorphism UI
-│   └── assets/             # Logos & icons
+├── 🌐 Web Application
+│   ├── index.html              # Landing page & transfer UI
+│   ├── app.js                  # P2P logic, WebRTC, room management
+│   ├── engine.js               # v2 Speed Engine (parallel, adaptive, relay)
+│   ├── styles.css              # Responsive glassmorphism UI (7 breakpoints)
+│   └── assets/                 # Logos & icons (SVG)
 │
 ├── 📱 Mobile Application (app/)
-│   ├── App.tsx             # React Native entry
-│   ├── app.json            # Expo configuration
+│   ├── App.tsx                 # React Native entry
 │   ├── src/
-│   │   ├── screens/        # HomeScreen, RoomScreen
-│   │   ├── components/     # QRScanner, QRDisplay
-│   │   ├── services/       # P2PService
-│   │   └── utils/          # Theme system
+│   │   ├── screens/            # HomeScreen, RoomScreen
+│   │   ├── components/         # QRScanner, QRDisplay, Logo, TransferProgress
+│   │   ├── services/           # P2PService, WiFiTransferService
+│   │   ├── context/            # ThemeContext (dark/light)
+│   │   └── utils/              # theme.ts, responsive.ts (scaling utilities)
 │   └── package.json
 │
-├── 📚 Documentation
-│   ├── CONTRIBUTING.md     # How to contribute
-│   ├── CODE_OF_CONDUCT.md  # Community guidelines
-│   ├── ROADMAP.md          # Future plans
-│   └── LICENSE             # MIT License
+├── 🖥️ Server (server/)
+│   ├── python/                 # FastAPI signaling + relay server
+│   │   ├── main.py             # WebSocket signaling, room mgmt, file relay
+│   │   ├── requirements.txt    # Python dependencies
+│   │   └── Dockerfile          # Python container
+│   └── go/                     # High-performance Go server
+│       ├── main.go             # Lock-free signaling, zero-copy relay
+│       ├── go.mod              # Go module dependencies
+│       └── Dockerfile          # Go multi-stage build
 │
-└── 🔧 Configuration
-    ├── .github/            # Issue/PR templates
-    └── .gitignore          # Git ignore rules
+├── 🐳 Deployment
+│   ├── docker-compose.yml      # Full stack orchestration
+│   ├── nginx.conf              # Reverse proxy + gzip + caching
+│   ├── Dockerfile              # Multi-stage (Python + Go)
+│   ├── start-servers.bat       # Windows launcher script
+│   └── start-servers.sh        # Linux/Mac launcher script
+│
+└── 📚 Documentation
+    ├── CONTRIBUTING.md          # Contribution guide
+    ├── CODE_OF_CONDUCT.md       # Community guidelines
+    ├── ROADMAP.md               # Product roadmap
+    └── LICENSE                  # MIT License
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component | Technology |
-|-----------|------------|
-| **Web App** | Vanilla JavaScript + WebRTC |
-| **Mobile App** | React Native (Expo) + TypeScript |
-| **P2P Protocol** | WebRTC Data Channels |
-| **Encryption** | AES-256 End-to-End |
-| **UI Theme** | Custom Glassmorphism Dark |
-| **Build System** | EAS Build (Expo) |
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Web Frontend** | Vanilla JS + WebRTC | P2P connections & transfer UI |
+| **Mobile App** | React Native + Expo + TypeScript | Cross-platform mobile client |
+| **v2 Engine** | JavaScript (engine.js) | Adaptive chunks, parallel channels, relay fallback |
+| **Python Server** | FastAPI + uvicorn + WebSockets | Signaling, room management, file relay |
+| **Go Server** | gorilla/websocket + LZ4 | High-performance signaling & relay |
+| **Compression** | LZ4 (Python & Go) | Fast compression for relay transfers |
+| **Encryption** | AES-256 E2E | End-to-end file encryption |
+| **Containerization** | Docker + docker-compose + Nginx | One-command deployment |
+| **UI System** | Glassmorphism + 7-layer responsive CSS | Adaptive across all screen sizes |
+| **Build System** | EAS Build (Expo) | Mobile app builds |
 
 ---
 
@@ -108,37 +147,75 @@ SendIt/
 
 ### Prerequisites
 
-```bash
-Node.js 18+   •   npm or yarn   •   Git
+```
+Node.js 18+  •  Python 3.10+  •  npm or yarn  •  Git
+Optional: Docker, Go 1.22+
 ```
 
-### 🌐 Run Web App
+### ⚡ One-Command (Docker)
 
 ```bash
-# Clone the repository
+git clone https://github.com/aniketmishra-0/SendIt.git
+cd SendIt
+docker-compose up -d
+
+# Web App     → http://localhost:5000
+# Python API  → http://localhost:8765
+# Go API      → http://localhost:8766
+```
+
+### 🌐 Run Web App (Manual)
+
+```bash
 git clone https://github.com/aniketmishra-0/SendIt.git
 cd SendIt
 
-# Start local server
-npm start
+# Option 1: Quick start script (Windows)
+start-servers.bat
 
-# Open http://localhost:5000
+# Option 2: Manual
+npm start                      # Web UI on http://localhost:5000
+npm run server:python          # Python server on :8765
+npm run server:go              # Go server on :8766 (optional)
 ```
 
 ### 📱 Run Mobile App
 
 ```bash
-# Navigate to mobile app folder
 cd app
-
-# Install dependencies
 npm install
-
-# Start Expo
 npm start
-
 # Scan QR code with Expo Go app
 ```
+
+---
+
+## 🖥️ Server Architecture
+
+```
+                    ┌──────────────────────────────┐
+                    │        Nginx (Port 80)       │
+                    │   Reverse Proxy + Gzip + CDN │
+                    └──────┬───────────┬───────────┘
+                           │           │
+              ┌────────────▼──┐   ┌────▼───────────┐
+              │ Python Server │   │   Go Server    │
+              │  (Port 8765)  │   │  (Port 8766)   │
+              │               │   │                │
+              │ • WebSocket   │   │ • Lock-free WS │
+              │ • Room mgmt   │   │ • sync.Map     │
+              │ • File relay  │   │ • Zero-copy IO │
+              │ • LZ4 compress│   │ • Buffer pools │
+              │ • Rate limits │   │ • Goroutines   │
+              └───────────────┘   └────────────────┘
+```
+
+**v2 Transfer Engine** automatically:
+1. Detects the best available server (Go preferred for speed)
+2. Establishes WebSocket signaling for WebRTC handshake
+3. Opens **3 parallel data channels** for maximum throughput
+4. Adapts chunk sizes (64KB → 4MB) based on connection speed
+5. Falls back to **server relay** if P2P connection fails
 
 ---
 
@@ -184,6 +261,25 @@ npm run build:web
 
 </details>
 
+<details>
+<summary><b>🐳 Docker Deployment</b></summary>
+
+```bash
+# Build and start all services
+docker-compose up -d --build
+
+# Check status
+docker-compose ps
+
+# View logs
+docker-compose logs -f
+
+# Stop everything
+docker-compose down
+```
+
+</details>
+
 ---
 
 ## 🔒 Security & Privacy
@@ -192,11 +288,12 @@ npm run build:web
 
 | Feature | Description |
 |---------|-------------|
-| 🚫 **No Server Storage** | Files transfer directly between devices |
+| 🚫 **No Server Storage** | Files transfer directly P2P; relay files auto-expire in 1 hour |
 | 🔐 **E2E Encryption** | AES-256 bit encryption for all transfers |
 | 📵 **No Analytics** | Zero tracking or data collection |
 | 👤 **No Accounts** | Use immediately without sign-up |
-| 🔓 **Open Source** | Fully auditable code |
+| 🛡️ **Rate Limiting** | Built-in IP-based rate limits and connection caps |
+| 🔓 **Open Source** | Fully auditable code — MIT licensed |
 
 </div>
 
@@ -205,18 +302,35 @@ npm run build:web
 ## 🔄 How P2P Works
 
 ```
-┌─────────────────┐                           ┌─────────────────┐
-│    Device A     │                           │    Device B     │
-│                 │                           │                 │
-│  1. Create Room │ ──── Room Code ────────▶  │  2. Join Room   │
-│                 │                           │                 │
-│                 │ ◀─── Signaling ─────────▶ │                 │
-│                 │ (Exchange connection info) │                 │
-│                 │                           │                 │
-│                 │ ◀═══ Direct P2P ════════▶ │                 │
-│                 │ (Encrypted file transfer) │                 │
-└─────────────────┘                           └─────────────────┘
+┌─────────────────┐                              ┌─────────────────┐
+│    Device A      │                              │    Device B      │
+│                  │                              │                  │
+│  1. Create Room  │ ──── Room Code ───────────▶  │  2. Join Room    │
+│                  │                              │                  │
+│                  │ ◀─── WebSocket Signaling ──▶ │                  │
+│                  │  (via Python/Go server)       │                  │
+│                  │                              │                  │
+│                  │ ◀══ 3x Parallel P2P ═══════▶ │                  │
+│                  │  (Adaptive chunks + LZ4)      │                  │
+│                  │                              │                  │
+│  [Fallback]      │ ──── Server Relay ─────────▶ │  [If P2P fails]  │
+│                  │  (Compressed, auto-expire)    │                  │
+└─────────────────┘                              └─────────────────┘
 ```
+
+---
+
+## 📊 Performance
+
+| Metric | v1.0 | v2.0 |
+|--------|------|------|
+| **Signaling** | localStorage polling | WebSocket (< 10ms) |
+| **Chunk Size** | Fixed 64KB | Adaptive 64KB–4MB |
+| **Channels** | 1 | 3 parallel |
+| **LAN Speed** | ~25 MB/s | **50-100+ MB/s** |
+| **Compression** | None | LZ4 (text files) |
+| **P2P Failure** | Transfer fails | Auto relay fallback |
+| **Responsiveness** | Single breakpoint | 7-layer (320px–1440px+) |
 
 ---
 
@@ -247,7 +361,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 

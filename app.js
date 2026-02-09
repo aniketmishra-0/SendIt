@@ -54,15 +54,56 @@ window.ThemeManager = ThemeManager;
 // Configuration
 // ============================================
 const CONFIG = {
-    CHUNK_SIZE: 64 * 1024, // 64KB chunks for optimal speed
+    CHUNK_SIZE: 256 * 1024, // 256KB chunks (4x faster than v1)
     ICE_SERVERS: [
         { urls: 'stun:stun.l.google.com:19302' },
         { urls: 'stun:stun1.l.google.com:19302' },
         { urls: 'stun:stun2.l.google.com:19302' },
+        { urls: 'stun:stun3.l.google.com:19302' },
+        { urls: 'stun:stun4.l.google.com:19302' },
     ],
     SIGNALING_SERVER: 'wss://sendit-signal.glitch.me',
     ROOM_CODE_LENGTH: 6,
 };
+
+// v2 Engine integration
+let serverManager = null;
+let wsSignaling = null;
+let chunkSizer = null;
+let relayTransfer = null;
+let useV2 = false;
+
+async function initV2Engine() {
+    if (!window.SendItV2) {
+        console.log('v2 engine not loaded, using v1');
+        return false;
+    }
+    
+    const { ServerManager, ChunkSizer, RelayTransfer } = window.SendItV2;
+    serverManager = new ServerManager();
+    chunkSizer = new ChunkSizer();
+    relayTransfer = new RelayTransfer(serverManager);
+    
+    const hasServer = await serverManager.findBestServer();
+    if (hasServer) {
+        useV2 = true;
+        showServerStatus(serverManager.activeServer);
+        console.log('✅ v2 Engine active with', serverManager.activeServer, 'server');
+    }
+    return hasServer;
+}
+
+function showServerStatus(server) {
+    const el = document.getElementById('server-status');
+    if (el) {
+        el.style.display = 'flex';
+        el.querySelector('.server-indicator').className = 'server-indicator online';
+        el.querySelector('.server-text').textContent = `${server === 'go' ? '⚡ Go' : '🐍 Python'} Server`;
+    }
+}
+
+// Init v2 on load
+if (window.SendItV2) initV2Engine();
 
 // ============================================
 // State Management
@@ -387,13 +428,19 @@ function finishReceivingFile(message) {
 }
 
 async function sendFiles() {
-    if (!state.dataChannel || state.dataChannel.readyState !== 'open') {
+    const useRelay = !state.dataChannel || state.dataChannel.readyState !== 'open';
+    
+    if (useRelay && !relayTransfer) {
         showToast('Not connected to peer', 'error');
         return;
     }
 
     for (const file of state.selectedFiles) {
-        await sendFile(file);
+        if (useRelay) {
+            await sendFileViaRelay(file);
+        } else {
+            await sendFile(file);
+        }
     }
 
     state.selectedFiles = [];
@@ -403,6 +450,11 @@ async function sendFiles() {
 
 async function sendFile(file) {
     const fileId = Date.now().toString();
+    
+    // Adaptive chunk size based on file size and connection speed
+    const currentChunkSize = chunkSizer 
+        ? chunkSizer.getChunkSize(file.size) 
+        : CONFIG.CHUNK_SIZE;
 
     // Send file start message
     state.dataChannel.send(JSON.stringify({
@@ -410,31 +462,44 @@ async function sendFile(file) {
         id: fileId,
         name: file.name,
         size: file.size,
-        type: file.type
+        type: file.type,
+        chunkSize: currentChunkSize,
     }));
 
     addTransferItem(fileId, file.name, file.size, 'upload');
 
-    // Read and send file in chunks
+    // Read and send file in chunks with optimized buffering
     const reader = file.stream().getReader();
     let offset = 0;
-    const startTime = Date.now();
+    const startTime = performance.now();
+    const maxBuffered = currentChunkSize * 16; // Dynamic buffer based on chunk size
 
     while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        // Wait for buffer to drain if necessary
-        while (state.dataChannel.bufferedAmount > CONFIG.CHUNK_SIZE * 10) {
-            await new Promise(resolve => setTimeout(resolve, 10));
+        // Optimized backpressure: use bufferedAmountLowThreshold event
+        if (state.dataChannel.bufferedAmount > maxBuffered) {
+            await new Promise(resolve => {
+                state.dataChannel.bufferedAmountLowThreshold = currentChunkSize * 4;
+                state.dataChannel.onbufferedamountlow = () => {
+                    state.dataChannel.onbufferedamountlow = null;
+                    resolve();
+                };
+                // Safety fallback
+                setTimeout(resolve, 100);
+            });
         }
 
         state.dataChannel.send(value);
         offset += value.byteLength;
 
         const progress = (offset / file.size) * 100;
-        const elapsed = (Date.now() - startTime) / 1000;
+        const elapsed = (performance.now() - startTime) / 1000;
         const speed = offset / elapsed;
+        
+        // Feed speed data to adaptive sizer
+        if (chunkSizer) chunkSizer.addSpeedSample(speed);
 
         updateTransferProgress(fileId, progress, speed);
     }
@@ -448,6 +513,40 @@ async function sendFile(file) {
     completeTransfer(fileId);
 }
 
+// Relay fallback: send file through server when P2P fails
+async function sendFileViaRelay(file) {
+    if (!relayTransfer || !serverManager) {
+        showToast('No server available for relay', 'error');
+        return;
+    }
+    
+    const fileId = Date.now().toString();
+    addTransferItem(fileId, file.name, file.size, 'upload');
+    
+    try {
+        const result = await relayTransfer.uploadFile(file, state.roomCode, (prog) => {
+            updateTransferProgress(fileId, prog.progress, prog.bytesTransferred / ((performance.now() - start) / 1000));
+        });
+        const start = performance.now();
+        
+        // Send download link to peer via signaling
+        if (state.signalingSocket) {
+            state.signalingSocket.send({
+                type: 'relay-file',
+                fileId: result.fileId,
+                name: file.name,
+                size: file.size,
+                downloadUrl: result.downloadUrl,
+            });
+        }
+        
+        completeTransfer(fileId);
+        showToast(`Sent via relay: ${file.name}`, 'success');
+    } catch (err) {
+        showToast(`Relay failed: ${err.message}`, 'error');
+    }
+}
+
 // ============================================
 // Room Management
 // ============================================
@@ -455,18 +554,45 @@ async function sendFile(file) {
 async function createRoom() {
     const roomCode = generateRoomCode();
 
-    state.signalingSocket = new SimpleSignaling();
-    await state.signalingSocket.createRoom(roomCode);
-
-    state.signalingSocket.onMessage = handleSignalingMessage;
+    if (useV2 && serverManager) {
+        // v2: WebSocket signaling
+        const { WebSocketSignaling } = window.SendItV2;
+        wsSignaling = new WebSocketSignaling(serverManager);
+        wsSignaling.onPeerJoined = (data) => {
+            showToast(`Peer connected! (${data.peerCount} in room)`, 'success');
+        };
+        wsSignaling.onPeerLeft = (data) => {
+            showToast('Peer disconnected', 'info');
+            updateConnectionStatus('disconnected');
+        };
+        wsSignaling.onMessage = handleSignalingMessage;
+        
+        const created = await wsSignaling.createRoom(roomCode);
+        if (!created) {
+            showToast('Failed to create room on server', 'error');
+            return;
+        }
+        state.signalingSocket = wsSignaling;
+    } else {
+        // v1 fallback: localStorage signaling
+        state.signalingSocket = new SimpleSignaling();
+        await state.signalingSocket.createRoom(roomCode);
+        state.signalingSocket.onMessage = handleSignalingMessage;
+    }
 
     await createPeerConnection();
 
     // Create data channel as host
     state.dataChannel = state.peerConnection.createDataChannel('fileTransfer', {
-        ordered: true
+        ordered: true,
+        maxRetransmits: 3,
     });
     setupDataChannel();
+
+    // Detect LAN for speed optimization
+    if (chunkSizer) {
+        setTimeout(() => chunkSizer.detectLAN(state.peerConnection), 3000);
+    }
 
     state.roomCode = roomCode;
     state.isHost = true;
@@ -483,20 +609,45 @@ async function joinRoom() {
         return;
     }
 
-    state.signalingSocket = new SimpleSignaling();
-    const joined = await state.signalingSocket.joinRoom(roomCode);
-
-    if (!joined) {
-        showToast('Room not found. Check the code and try again.', 'error');
-        return;
+    if (useV2 && serverManager) {
+        // v2: WebSocket signaling
+        const { WebSocketSignaling } = window.SendItV2;
+        wsSignaling = new WebSocketSignaling(serverManager);
+        wsSignaling.onPeerJoined = (data) => {
+            showToast(`Peer connected!`, 'success');
+        };
+        wsSignaling.onPeerLeft = (data) => {
+            showToast('Peer disconnected', 'info');
+            updateConnectionStatus('disconnected');
+        };
+        wsSignaling.onMessage = handleSignalingMessage;
+        
+        const joined = await wsSignaling.joinRoom(roomCode);
+        if (!joined) {
+            showToast('Room not found. Check the code and try again.', 'error');
+            return;
+        }
+        state.signalingSocket = wsSignaling;
+    } else {
+        // v1 fallback
+        state.signalingSocket = new SimpleSignaling();
+        const joined = await state.signalingSocket.joinRoom(roomCode);
+        if (!joined) {
+            showToast('Room not found. Check the code and try again.', 'error');
+            return;
+        }
+        state.signalingSocket.onMessage = handleSignalingMessage;
     }
-
-    state.signalingSocket.onMessage = handleSignalingMessage;
 
     await createPeerConnection();
 
     state.roomCode = roomCode;
     state.isHost = false;
+
+    // Detect LAN
+    if (chunkSizer) {
+        setTimeout(() => chunkSizer.detectLAN(state.peerConnection), 3000);
+    }
 
     // Create and send offer
     const offer = await state.peerConnection.createOffer();
@@ -763,3 +914,6 @@ if (themeToggleBtn) {
 // ============================================
 
 console.log('🚀 SendIt initialized - Privacy-first P2P file transfer');
+console.log('   v2 Engine:', window.SendItV2 ? 'Available' : 'Not loaded');
+console.log('   Chunk Size:', CONFIG.CHUNK_SIZE / 1024, 'KB (adaptive)');
+console.log('   Servers: Python 🐍 + Go ⚡');

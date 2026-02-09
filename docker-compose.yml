@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Python FastAPI Server (Primary)
+  python-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: python-server
+    container_name: sendit-python
+    ports:
+      - "8765:8765"
+    environment:
+      - SENDIT_HOST=0.0.0.0
+      - SENDIT_PORT=8765
+      - SENDIT_UPLOAD_DIR=/data/uploads
+    volumes:
+      - upload-data:/data/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8765/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Go Server (High Performance Alternative)
+  go-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: go-server
+    container_name: sendit-go
+    ports:
+      - "8766:8766"
+    environment:
+      - SENDIT_GO_HOST=0.0.0.0
+      - SENDIT_GO_PORT=8766
+      - SENDIT_GO_UPLOAD_DIR=/data/uploads
+    volumes:
+      - upload-data-go:/data/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8766/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Web Frontend (Nginx)
+  web:
+    image: nginx:alpine
+    container_name: sendit-web
+    ports:
+      - "5000:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./app.js:/usr/share/nginx/html/app.js:ro
+      - ./engine.js:/usr/share/nginx/html/engine.js:ro
+      - ./styles.css:/usr/share/nginx/html/styles.css:ro
+      - ./assets:/usr/share/nginx/html/assets:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - python-server
+      - go-server
+    restart: unless-stopped
+
+volumes:
+  upload-data:
+  upload-data-go:

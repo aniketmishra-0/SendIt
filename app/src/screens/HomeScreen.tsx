@@ -5,28 +5,29 @@ import {
     StyleSheet,
     TouchableOpacity,
     TextInput,
-    Dimensions,
     Platform,
     KeyboardAvoidingView,
     ScrollView,
+    useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { theme } from '../utils/theme';
+import { wp, hp, fs, ms, responsive, isSmallScreen, isTablet } from '../utils/responsive';
 import { QRScanner } from '../components/QRScanner';
+import { Logo } from '../components/Logo';
 
 interface Props {
     onCreateRoom: () => void;
     onJoinRoom: (code: string) => void;
 }
 
-const { width, height } = Dimensions.get('window');
-
 export const HomeScreen: React.FC<Props> = ({ onCreateRoom, onJoinRoom }) => {
     const [joinCode, setJoinCode] = useState('');
     const [showScanner, setShowScanner] = useState(false);
     const insets = useSafeAreaInsets();
+    const { width, height } = useWindowDimensions();
 
     const handleJoinRoom = () => {
         if (joinCode.length === 6) {
@@ -73,12 +74,7 @@ export const HomeScreen: React.FC<Props> = ({ onCreateRoom, onJoinRoom }) => {
                     {/* Header */}
                     <View style={styles.header}>
                         <View style={styles.logoContainer}>
-                            <LinearGradient
-                                colors={[theme.colors.primary, theme.colors.accent]}
-                                style={styles.logoIcon}
-                            >
-                                <Ionicons name="send" size={28} color="white" />
-                            </LinearGradient>
+                            <Logo size={wp(42)} />
                             <Text style={styles.logoText}>SendIt</Text>
                         </View>
 
@@ -251,7 +247,6 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         flexGrow: 1,
-        minHeight: height,
     },
     backgroundEffects: {
         position: 'absolute',
@@ -265,30 +260,30 @@ const styles = StyleSheet.create({
         borderRadius: 9999,
     },
     orb1: {
-        width: 300,
-        height: 300,
-        top: -100,
-        right: -80,
+        width: wp(280),
+        height: wp(280),
+        top: hp(-80),
+        right: wp(-60),
         opacity: 0.5,
     },
     orb2: {
-        width: 280,
-        height: 280,
-        bottom: -80,
-        left: -80,
+        width: wp(260),
+        height: wp(260),
+        bottom: hp(-60),
+        left: wp(-60),
         opacity: 0.4,
     },
     orb3: {
-        width: 200,
-        height: 200,
+        width: wp(180),
+        height: wp(180),
         top: '40%',
         left: '50%',
-        marginLeft: -100,
+        marginLeft: wp(-90),
         opacity: 0.3,
     },
     header: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingHorizontal: wp(20),
+        paddingVertical: hp(10),
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -296,79 +291,72 @@ const styles = StyleSheet.create({
     logoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 10,
-    },
-    logoIcon: {
-        width: 42,
-        height: 42,
-        borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
+        gap: wp(10),
     },
     logoText: {
-        fontSize: 22,
+        fontSize: fs(22),
         fontWeight: '800',
         color: theme.colors.textPrimary,
     },
     badges: {
         flexDirection: 'row',
-        gap: 6,
+        gap: wp(6),
     },
     badge: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 4,
-        paddingHorizontal: 8,
-        paddingVertical: 5,
-        borderRadius: 20,
+        gap: wp(4),
+        paddingHorizontal: wp(8),
+        paddingVertical: hp(5),
+        borderRadius: wp(20),
     },
     badgeSecure: {
         backgroundColor: 'rgba(34, 197, 94, 0.15)',
     },
     badgeTextSecure: {
-        fontSize: 11,
+        fontSize: fs(11),
         fontWeight: '600',
         color: theme.colors.success,
     },
     content: {
         flex: 1,
-        paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingHorizontal: wp(20),
+        paddingTop: hp(20),
     },
     title: {
-        fontSize: 32,
+        fontSize: responsive({ small: fs(26), medium: fs(30), large: fs(34), tablet: fs(40), default: fs(32) }),
         fontWeight: '800',
         color: theme.colors.textPrimary,
-        lineHeight: 40,
-        marginBottom: 8,
+        lineHeight: responsive({ small: fs(34), default: fs(42) }),
+        marginBottom: hp(8),
     },
     subtitle: {
-        fontSize: 14,
+        fontSize: fs(14),
         color: theme.colors.textSecondary,
-        lineHeight: 20,
-        marginBottom: 24,
+        lineHeight: fs(20),
+        marginBottom: hp(24),
     },
     card: {
-        borderRadius: 16,
+        borderRadius: wp(16),
         overflow: 'hidden',
         shadowColor: theme.colors.primary,
-        shadowOffset: { width: 0, height: 6 },
+        shadowOffset: { width: 0, height: wp(6) },
         shadowOpacity: 0.3,
-        shadowRadius: 12,
+        shadowRadius: wp(12),
         elevation: 8,
     },
     createRoomGradient: {
-        padding: 16,
+        padding: wp(16),
     },
     createRoomContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 12,
+        gap: wp(12),
     },
     createRoomIcon: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
+        width: wp(48),
+        height: wp(48),
+        borderRadius: wp(24),
         backgroundColor: 'rgba(255,255,255,0.2)',
         justifyContent: 'center',
         alignItems: 'center',
@@ -377,20 +365,20 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     createRoomTitle: {
-        fontSize: 18,
+        fontSize: fs(18),
         fontWeight: '700',
         color: 'white',
     },
     createRoomDescription: {
-        fontSize: 13,
+        fontSize: fs(13),
         color: 'rgba(255,255,255,0.8)',
-        marginTop: 2,
+        marginTop: hp(2),
     },
     divider: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 20,
-        gap: 12,
+        marginVertical: hp(20),
+        gap: wp(12),
     },
     dividerLine: {
         flex: 1,
@@ -398,16 +386,16 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.glassBorder,
     },
     dividerText: {
-        fontSize: 12,
+        fontSize: fs(12),
         color: theme.colors.textMuted,
         fontWeight: '500',
     },
     joinSection: {
-        gap: 12,
+        gap: hp(12),
     },
     scanButton: {
         backgroundColor: theme.colors.bgCard,
-        borderRadius: 14,
+        borderRadius: wp(14),
         borderWidth: 1,
         borderColor: theme.colors.glassBorder,
         overflow: 'hidden',
@@ -415,13 +403,13 @@ const styles = StyleSheet.create({
     scanButtonContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 14,
-        gap: 12,
+        padding: wp(14),
+        gap: wp(12),
     },
     scanIcon: {
-        width: 44,
-        height: 44,
-        borderRadius: 10,
+        width: wp(44),
+        height: wp(44),
+        borderRadius: wp(10),
         backgroundColor: 'rgba(0, 212, 255, 0.1)',
         justifyContent: 'center',
         alignItems: 'center',
@@ -430,42 +418,45 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scanTitle: {
-        fontSize: 15,
+        fontSize: fs(15),
         fontWeight: '600',
         color: theme.colors.textPrimary,
     },
     scanDescription: {
-        fontSize: 12,
+        fontSize: fs(12),
         color: theme.colors.textMuted,
     },
     orText: {
         textAlign: 'center',
-        fontSize: 11,
+        fontSize: fs(11),
         color: theme.colors.textMuted,
-        marginVertical: 4,
+        marginVertical: hp(4),
     },
     codeInputContainer: {
         flexDirection: 'row',
-        gap: 10,
+        gap: wp(10),
     },
     codeInput: {
         flex: 1,
-        height: 52,
+        height: hp(52),
+        minHeight: 44,
         backgroundColor: theme.colors.bgCard,
-        borderRadius: 14,
+        borderRadius: wp(14),
         borderWidth: 2,
         borderColor: theme.colors.glassBorder,
-        paddingHorizontal: 16,
-        fontSize: 20,
+        paddingHorizontal: wp(16),
+        fontSize: fs(20),
         fontWeight: '700',
         color: theme.colors.textPrimary,
-        letterSpacing: 5,
+        letterSpacing: wp(5),
         textAlign: 'center',
     },
     joinButton: {
-        width: 52,
-        height: 52,
-        borderRadius: 14,
+        width: hp(52),
+        height: hp(52),
+        minWidth: 44,
+        minHeight: 44,
+        borderRadius: wp(14),
         overflow: 'hidden',
     },
     joinButtonDisabled: {
@@ -479,51 +470,51 @@ const styles = StyleSheet.create({
     features: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginTop: 24,
-        paddingVertical: 14,
+        marginTop: hp(24),
+        paddingVertical: hp(14),
         backgroundColor: theme.colors.bgCard,
-        borderRadius: 16,
+        borderRadius: wp(16),
         borderWidth: 1,
         borderColor: theme.colors.glassBorder,
     },
     featureItem: {
         alignItems: 'center',
-        gap: 6,
+        gap: hp(6),
     },
     featureIcon: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
+        width: wp(36),
+        height: wp(36),
+        borderRadius: wp(18),
         justifyContent: 'center',
         alignItems: 'center',
     },
     featureText: {
-        fontSize: 10,
+        fontSize: fs(10),
         fontWeight: '600',
         color: theme.colors.textSecondary,
     },
     footer: {
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 10,
+        paddingHorizontal: wp(20),
+        paddingTop: hp(20),
+        paddingBottom: hp(10),
         alignItems: 'center',
-        gap: 8,
+        gap: hp(8),
     },
     privacyBadge: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 6,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
+        gap: wp(6),
+        paddingHorizontal: wp(12),
+        paddingVertical: hp(6),
         backgroundColor: 'rgba(34, 197, 94, 0.1)',
-        borderRadius: 20,
+        borderRadius: wp(20),
     },
     footerText: {
-        fontSize: 11,
+        fontSize: fs(11),
         color: theme.colors.textSecondary,
     },
     platformText: {
-        fontSize: 10,
+        fontSize: fs(10),
         color: theme.colors.textMuted,
     },
 });

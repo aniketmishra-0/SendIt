@@ -201,7 +201,16 @@
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <script src="app.js" type="module"></script>
+    <!-- Server Status Bar -->
+    <div id="server-status" class="server-status" style="display:none;">
+        <span class="server-indicator"></span>
+        <span class="server-text">Connecting...</span>
+    </div>
+
+    <!-- v2 Engine (load first) -->
+    <script src="engine.js"></script>
+    <!-- Main App -->
+    <script src="app.js"></script>
 </body>
 
 </html>

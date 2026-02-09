@@ -129,6 +129,8 @@ export const theme = {
         bgTertiary: darkTheme.colors.backgroundTertiary,
         bgSecondary: darkTheme.colors.backgroundSecondary,
         bgPrimary: darkTheme.colors.background,
+        bgDark: darkTheme.colors.background,          // #0F0F0F
+        bgDarker: '#090909',                           // Extra dark
     },
     spacing: {
         xs: 4,

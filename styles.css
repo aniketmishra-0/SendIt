@@ -1173,6 +1173,600 @@ body {
     }
 }
 
+/* ============================================
+   Enhanced Responsive - Large Desktop (1440px+)
+   ============================================ */
+@media (min-width: 1440px) {
+    html {
+        font-size: 18px;
+    }
+
+    .panel {
+        max-width: 1000px;
+    }
+
+    .main-content {
+        padding: var(--space-2xl);
+    }
+
+    .gradient-orb {
+        filter: blur(120px);
+    }
+
+    .orb-1 { width: 800px; height: 800px; }
+    .orb-2 { width: 700px; height: 700px; }
+    .orb-3 { width: 500px; height: 500px; }
+}
+
+/* ============================================
+   Desktop (1024px - 1439px) - Default styles
+   ============================================ */
+
+/* ============================================
+   Tablet (768px - 1023px)
+   ============================================ */
+@media (max-width: 1023px) {
+    .main-content {
+        padding: var(--space-lg);
+    }
+
+    .glass-panel {
+        padding: var(--space-xl);
+    }
+
+    .option-card {
+        min-width: 240px;
+    }
+
+    .drop-zone {
+        min-height: 160px;
+    }
+}
+
+/* ============================================
+   Mobile Landscape / Tablet Portrait (481px - 767px)
+   ============================================ */
+@media (max-width: 767px) {
+    html {
+        font-size: 15px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+    }
+
+    .header-badges {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-xs);
+    }
+
+    .badge {
+        padding: 3px 8px;
+        font-size: 0.6875rem;
+    }
+
+    .main-content {
+        padding: var(--space-md);
+        align-items: stretch;
+    }
+
+    .glass-panel {
+        padding: var(--space-lg);
+        border-radius: var(--radius-lg);
+    }
+
+    .panel {
+        max-width: 100%;
+    }
+
+    .panel-header {
+        margin-bottom: var(--space-lg);
+    }
+
+    .panel-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .panel-header p {
+        font-size: 0.875rem;
+    }
+
+    .connection-options {
+        flex-direction: column;
+    }
+
+    .option-card {
+        min-width: unset;
+        padding: var(--space-lg);
+    }
+
+    .option-icon {
+        width: 52px;
+        height: 52px;
+    }
+
+    .option-icon svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .divider {
+        padding: var(--space-sm) 0;
+    }
+
+    .divider span {
+        width: auto;
+        text-align: center;
+    }
+
+    .room-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-md);
+    }
+
+    .room-code-display span {
+        font-size: 1.5rem;
+    }
+
+    .drop-zone {
+        min-height: 140px;
+    }
+
+    .drop-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .drop-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .drop-zone-content h3 {
+        font-size: 1rem;
+    }
+
+    .files-list {
+        max-height: 160px;
+    }
+
+    .footer {
+        padding: var(--space-md);
+    }
+
+    .privacy-notice {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-xs);
+    }
+
+    .toast-container {
+        left: var(--space-md);
+        right: var(--space-md);
+        bottom: var(--space-md);
+    }
+
+    .toast {
+        max-width: none;
+    }
+
+    .server-status {
+        bottom: 12px;
+        left: 12px;
+        padding: 6px 12px;
+        font-size: 0.6875rem;
+    }
+}
+
+/* ============================================
+   Mobile Portrait (320px - 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+
+    .header {
+        padding: var(--space-sm) var(--space-md);
+        gap: var(--space-xs);
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-icon img,
+    .logo-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-text {
+        font-size: 1.25rem;
+    }
+
+    .header-badges {
+        gap: 4px;
+    }
+
+    .badge {
+        padding: 2px 6px;
+        font-size: 0.625rem;
+        letter-spacing: 0.02em;
+    }
+
+    .badge svg {
+        width: 10px;
+        height: 10px;
+    }
+
+    .badge-p2p {
+        display: none;
+    }
+
+    .main-content {
+        padding: var(--space-sm);
+    }
+
+    .glass-panel {
+        padding: var(--space-md);
+        border-radius: var(--radius-md);
+    }
+
+    .panel-header {
+        margin-bottom: var(--space-md);
+    }
+
+    .panel-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .panel-header p {
+        font-size: 0.8125rem;
+    }
+
+    .option-card {
+        padding: var(--space-md);
+    }
+
+    .option-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: var(--space-md);
+    }
+
+    .option-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .option-card h3 {
+        font-size: 1.0625rem;
+    }
+
+    .option-card p {
+        font-size: 0.8125rem;
+        margin-bottom: var(--space-md);
+    }
+
+    .btn {
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.875rem;
+    }
+
+    .btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .input-group input {
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.9375rem;
+        letter-spacing: 0.2em;
+    }
+
+    .room-header {
+        gap: var(--space-sm);
+        padding-bottom: var(--space-md);
+        margin-bottom: var(--space-md);
+    }
+
+    .room-label {
+        font-size: 0.625rem;
+    }
+
+    .room-code-display span {
+        font-size: 1.25rem;
+        letter-spacing: 0.15em;
+    }
+
+    .connection-status {
+        padding: 4px var(--space-sm);
+    }
+
+    .status-text {
+        font-size: 0.75rem;
+    }
+
+    .btn-danger.btn-sm {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.75rem;
+    }
+
+    .drop-zone {
+        min-height: 120px;
+    }
+
+    .drop-zone-content h3 {
+        font-size: 0.9375rem;
+    }
+
+    .drop-zone-content p {
+        font-size: 0.75rem;
+    }
+
+    .files-header h4,
+    .transfers-section h4,
+    .received-section h4 {
+        font-size: 0.75rem;
+    }
+
+    .file-item,
+    .received-item {
+        padding: var(--space-sm);
+        gap: var(--space-sm);
+    }
+
+    .file-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .file-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .file-name {
+        font-size: 0.875rem;
+    }
+
+    .file-size {
+        font-size: 0.6875rem;
+    }
+
+    .transfer-direction {
+        width: 28px;
+        height: 28px;
+    }
+
+    .transfer-name {
+        font-size: 0.875rem;
+    }
+
+    .transfer-stats {
+        font-size: 0.6875rem;
+    }
+
+    .progress-bar {
+        height: 4px;
+    }
+
+    .footer {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .privacy-notice {
+        font-size: 0.6875rem;
+    }
+
+    .privacy-notice svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .toast {
+        padding: var(--space-sm) var(--space-md);
+        gap: var(--space-sm);
+    }
+
+    .toast-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .toast-message {
+        font-size: 0.8125rem;
+    }
+
+    .server-status {
+        bottom: 8px;
+        left: 8px;
+        padding: 4px 10px;
+        font-size: 0.625rem;
+        gap: 5px;
+    }
+
+    .server-indicator {
+        width: 6px;
+        height: 6px;
+    }
+
+    .theme-toggle {
+        width: 34px;
+        height: 34px;
+    }
+
+    .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* ============================================
+   Extra Small (< 320px) - Tiny phones
+   ============================================ */
+@media (max-width: 320px) {
+    html {
+        font-size: 13px;
+    }
+
+    .header {
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .logo-text {
+        font-size: 1.125rem;
+    }
+
+    .badge {
+        display: none;
+    }
+
+    .glass-panel {
+        padding: var(--space-sm);
+        border-radius: var(--radius-sm);
+    }
+
+    .panel-header h1 {
+        font-size: 1.125rem;
+    }
+
+    .option-card {
+        padding: var(--space-sm);
+    }
+
+    .btn {
+        padding: 6px var(--space-sm);
+        font-size: 0.8125rem;
+    }
+
+    .drop-zone {
+        min-height: 100px;
+    }
+}
+
+/* ============================================
+   Touch Device Optimizations
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+    .option-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .btn-primary:hover {
+        transform: none;
+    }
+
+    .theme-toggle:hover {
+        transform: none;
+    }
+
+    .btn {
+        min-height: 44px;
+    }
+
+    .btn-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .input-group input {
+        min-height: 44px;
+    }
+
+    .option-card {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .option-card:active {
+        transform: scale(0.98);
+        transition: transform 100ms ease;
+    }
+
+    .btn-primary:active {
+        transform: scale(0.97);
+    }
+}
+
+/* ============================================
+   Landscape Mobile
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+    .main-content {
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+
+    .glass-panel {
+        padding: var(--space-md);
+    }
+
+    .panel-header {
+        margin-bottom: var(--space-md);
+    }
+
+    .connection-options {
+        flex-direction: row;
+    }
+
+    .option-card {
+        min-width: unset;
+    }
+
+    .background-effects {
+        display: none;
+    }
+
+    .drop-zone {
+        min-height: 100px;
+    }
+
+    .footer {
+        padding: var(--space-xs) var(--space-md);
+    }
+}
+
+/* ============================================
+   Safe Area (notched devices via web)
+   ============================================ */
+@supports (padding: env(safe-area-inset-top)) {
+    .header {
+        padding-top: calc(var(--space-lg) + env(safe-area-inset-top));
+    }
+
+    .footer {
+        padding-bottom: calc(var(--space-lg) + env(safe-area-inset-bottom));
+    }
+
+    .toast-container {
+        bottom: calc(var(--space-xl) + env(safe-area-inset-bottom));
+    }
+
+    .server-status {
+        bottom: calc(16px + env(safe-area-inset-bottom));
+        left: calc(16px + env(safe-area-inset-left));
+    }
+}
+
+/* ============================================
+   Print
+   ============================================ */
+@media print {
+    .background-effects,
+    .toast-container,
+    .server-status,
+    .theme-toggle {
+        display: none !important;
+    }
+}
+
 .spinner {
     width: 20px;
     height: 20px;
@@ -1256,4 +1850,59 @@ body {
 
 [data-theme="light"] .grid-overlay {
     background-image: linear-gradient(hsla(0, 0%, 0%, 0.03) 1px, transparent 1px), linear-gradient(90deg, hsla(0, 0%, 0%, 0.03) 1px, transparent 1px);
+}
+
+/* ============================================
+   Server Status Bar (v2 Engine)  
+   ============================================ */
+
+.server-status {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.server-status:hover {
+    background: var(--bg-card);
+    border-color: var(--primary);
+}
+
+.server-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: background 0.3s ease;
+}
+
+.server-indicator.online {
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success-glow);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.server-indicator.offline {
+    background: var(--danger);
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.server-text {
+    font-weight: 500;
+    letter-spacing: 0.02em;
 }

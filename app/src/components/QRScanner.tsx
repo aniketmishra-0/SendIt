@@ -5,11 +5,11 @@ import {
     StyleSheet,
     TouchableOpacity,
     Modal,
-    Dimensions,
 } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../utils/theme';
+import { wp, fs, hp } from '../utils/responsive';
 
 interface Props {
     visible: boolean;
@@ -17,8 +17,7 @@ interface Props {
     onScan: (code: string) => void;
 }
 
-const { width } = Dimensions.get('window');
-const SCANNER_SIZE = width * 0.7;
+const SCANNER_SIZE = wp(270);
 
 export const QRScanner: React.FC<Props> = ({ visible, onClose, onScan }) => {
     const [permission, requestPermission] = useCameraPermissions();
@@ -132,40 +131,41 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: theme.spacing.xl,
+        padding: wp(32),
         backgroundColor: theme.colors.bgDark,
     },
     permissionTitle: {
-        fontSize: 20,
+        fontSize: fs(20),
         fontWeight: '600',
         color: theme.colors.textPrimary,
-        marginTop: theme.spacing.lg,
-        marginBottom: theme.spacing.sm,
+        marginTop: hp(24),
+        marginBottom: hp(8),
     },
     permissionText: {
-        fontSize: 14,
+        fontSize: fs(14),
         color: theme.colors.textSecondary,
         textAlign: 'center',
-        marginBottom: theme.spacing.xl,
+        marginBottom: hp(32),
     },
     permissionButton: {
         backgroundColor: theme.colors.primary,
-        paddingHorizontal: theme.spacing.xl,
-        paddingVertical: theme.spacing.md,
-        borderRadius: theme.borderRadius.md,
-        marginBottom: theme.spacing.md,
+        paddingHorizontal: wp(32),
+        paddingVertical: hp(16),
+        borderRadius: wp(12),
+        marginBottom: hp(16),
+        minHeight: 48,
     },
     permissionButtonText: {
-        fontSize: 16,
+        fontSize: fs(16),
         fontWeight: '600',
         color: 'white',
     },
     cancelButton: {
-        paddingHorizontal: theme.spacing.xl,
-        paddingVertical: theme.spacing.md,
+        paddingHorizontal: wp(32),
+        paddingVertical: hp(16),
     },
     cancelButtonText: {
-        fontSize: 16,
+        fontSize: fs(16),
         color: theme.colors.textSecondary,
     },
     overlay: {
@@ -177,22 +177,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        paddingTop: 50,
-        paddingHorizontal: theme.spacing.md,
+        paddingTop: hp(50),
+        paddingHorizontal: wp(16),
     },
     closeButton: {
-        width: 44,
-        height: 44,
-        borderRadius: 22,
+        width: wp(44),
+        height: wp(44),
+        borderRadius: wp(22),
         backgroundColor: 'rgba(255,255,255,0.2)',
         justifyContent: 'center',
         alignItems: 'center',
     },
     title: {
-        fontSize: 18,
+        fontSize: fs(18),
         fontWeight: '600',
         color: 'white',
-        marginTop: 10,
+        marginTop: hp(10),
     },
     overlayMiddle: {
         flexDirection: 'row',
@@ -212,8 +212,8 @@ const styles = StyleSheet.create({
     },
     corner: {
         position: 'absolute',
-        width: 30,
-        height: 30,
+        width: wp(30),
+        height: wp(30),
         borderColor: theme.colors.primary,
     },
     cornerTL: {
@@ -248,10 +248,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.7)',
         alignItems: 'center',
-        paddingTop: theme.spacing.xl,
+        paddingTop: hp(32),
     },
     instructions: {
-        fontSize: 14,
+        fontSize: fs(14),
         color: 'rgba(255,255,255,0.8)',
         textAlign: 'center',
     },

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, Share, Platform } from
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../utils/theme';
+import { Logo } from './Logo';
 
 // Simple QR Code component using a grid pattern
 // For production, you'd use react-native-qrcode-svg
@@ -100,12 +101,7 @@ export const QRCodeDisplay: React.FC<Props> = ({ visible, roomCode, onClose }) =
 
                             {/* Logo overlay */}
                             <View style={styles.logoOverlay}>
-                                <LinearGradient
-                                    colors={[theme.colors.primary, theme.colors.accent]}
-                                    style={styles.logoGradient}
-                                >
-                                    <Ionicons name="flash" size={20} color="white" />
-                                </LinearGradient>
+                                <Logo size={40} />
                             </View>
                         </View>
 

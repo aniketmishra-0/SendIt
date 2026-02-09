@@ -1,11 +1,16 @@
 {
   "name": "sendit",
-  "version": "1.0.0",
-  "description": "Ultra-speed P2P file transfer with end-to-end encryption",
+  "version": "2.0.0",
+  "description": "Ultra-speed P2P file transfer with Python/Go servers & end-to-end encryption",
   "scripts": {
-    "start": "npx http-server -p 5000 --cors"
+    "start": "npx http-server -p 5000 --cors",
+    "server:python": "cd server/python && python -m uvicorn main:app --host 0.0.0.0 --port 8765 --ws-ping-interval 20 --ws-ping-timeout 20",
+    "server:go": "cd server/go && go run main.go",
+    "docker": "docker-compose up -d",
+    "docker:build": "docker-compose build",
+    "docker:stop": "docker-compose down"
   },
-  "keywords": ["p2p", "file-transfer", "webrtc", "encryption"],
+  "keywords": ["p2p", "file-transfer", "webrtc", "encryption", "fastapi", "golang"],
   "license": "MIT",
   "dependencies": {}
 }
