@@ -68,8 +68,9 @@ SendIt/
 │   ├── styles.css          # Glassmorphism UI
 │   └── assets/             # Logos & icons
 │
-├── 📱 Mobile App (SendIt/)
+├── 📱 Mobile Application (app/)
 │   ├── App.tsx             # React Native entry
+│   ├── app.json            # Expo configuration
 │   ├── src/
 │   │   ├── screens/        # HomeScreen, RoomScreen
 │   │   ├── components/     # QRScanner, QRDisplay
@@ -128,7 +129,7 @@ npm start
 
 ```bash
 # Navigate to mobile app folder
-cd SendIt
+cd app
 
 # Install dependencies
 npm install
@@ -147,7 +148,7 @@ npm start
 <summary><b>🤖 Android APK</b></summary>
 
 ```bash
-cd SendIt
+cd app
 
 # Using EAS Build (Cloud - Recommended)
 npm install -g eas-cli
@@ -164,6 +165,8 @@ npx expo run:android --variant release
 <summary><b>🍎 iOS Build</b></summary>
 
 ```bash
+cd app
+
 # Requires Apple Developer Account
 npm run build:ios
 ```
@@ -174,6 +177,7 @@ npm run build:ios
 <summary><b>🌐 Web Build</b></summary>
 
 ```bash
+cd app
 npm run build:web
 # Deploy 'dist' folder to Vercel, Netlify, or GitHub Pages
 ```

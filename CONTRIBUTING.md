@@ -68,7 +68,7 @@ Feature suggestions are welcome! Please:
 
 3. **Install dependencies**
    ```bash
-   cd SendIt
+   cd app
    npm install
    ```
 
