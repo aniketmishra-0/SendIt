@@ -118,9 +118,18 @@ export const lightTheme = {
     },
 };
 
-// Default theme (dark mode)
+// Default theme (dark mode) with additional aliases for components
 export const theme = {
     ...darkTheme,
+    colors: {
+        ...darkTheme.colors,
+        // Aliases for component compatibility
+        bgCard: darkTheme.colors.card,
+        bgCardHover: darkTheme.colors.cardHover,
+        bgTertiary: darkTheme.colors.backgroundTertiary,
+        bgSecondary: darkTheme.colors.backgroundSecondary,
+        bgPrimary: darkTheme.colors.background,
+    },
     spacing: {
         xs: 4,
         sm: 8,
