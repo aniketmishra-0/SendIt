@@ -1,0 +1,11 @@
+{
+  "name": "sendit",
+  "version": "1.0.0",
+  "description": "Ultra-speed P2P file transfer with end-to-end encryption",
+  "scripts": {
+    "start": "npx http-server -p 5000 --cors"
+  },
+  "keywords": ["p2p", "file-transfer", "webrtc", "encryption"],
+  "license": "MIT",
+  "dependencies": {}
+}

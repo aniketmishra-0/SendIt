@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#EF4444"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="115" fill="#1A1A1A"/>
+  
+  <!-- Letter S stylized as send arrow -->
+  <path d="M 320 140 
+           C 180 140 180 220 256 256 
+           C 332 292 332 372 192 372"
+        fill="none"
+        stroke="url(#grad4)"
+        stroke-width="50"
+        stroke-linecap="round"/>
+  
+  <!-- Arrow head on the S -->
+  <path d="M 230 340 L 192 372 L 230 404"
+        fill="none"
+        stroke="url(#grad4)"
+        stroke-width="50"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+</svg>

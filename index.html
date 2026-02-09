@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SendIt - Ultra-Speed P2P File Transfer</title>
+    <meta name="description" content="Secure, ultra-fast peer-to-peer file sharing with end-to-end encryption. No data collection, no servers storing your files.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Animated Background -->
+        <div class="background-effects">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+            <div class="grid-overlay"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#F59E0B"/>
+                                <stop offset="100%" stop-color="#EF4444"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M 62 28 C 35 28 35 44 50 50 C 65 56 65 72 38 72" stroke="url(#logoGrad)" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M 45 66 L 38 72 L 45 78" stroke="url(#logoGrad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">SendIt</span>
+            </div>
+            <div class="header-badges">
+                <span class="badge badge-secure">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    E2E Encrypted
+                </span>
+                <span class="badge badge-p2p">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+                    </svg>
+                    P2P Transfer
+                </span>
+                <button class="theme-toggle" id="theme-toggle" onclick="ThemeManager.toggle()" title="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Connection Panel -->
+            <section id="connection-panel" class="panel glass-panel">
+                <div class="panel-header">
+                    <h1>Secure File Transfer</h1>
+                    <p>Create or join a room to start sharing files instantly</p>
+                </div>
+
+                <div class="connection-options">
+                    <div class="option-card" id="create-room-card">
+                        <div class="option-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 8v8m-4-4h8"/>
+                            </svg>
+                        </div>
+                        <h3>Create Room</h3>
+                        <p>Generate a unique room code to share</p>
+                        <button class="btn btn-primary" id="btn-create-room">
+                            <span>Create New Room</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14m-7-7 7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="option-card" id="join-room-card">
+                        <div class="option-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h6v6m-6 0 6-6M9 21H3v-6m6 0-6 6"/>
+                            </svg>
+                        </div>
+                        <h3>Join Room</h3>
+                        <p>Enter a room code to connect</p>
+                        <div class="input-group">
+                            <input type="text" id="room-code-input" placeholder="Enter room code" maxlength="6" autocomplete="off">
+                            <button class="btn btn-secondary" id="btn-join-room">
+                                <span>Join</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Room Panel (Hidden initially) -->
+            <section id="room-panel" class="panel glass-panel hidden">
+                <div class="room-header">
+                    <div class="room-info">
+                        <span class="room-label">Room Code</span>
+                        <div class="room-code-display">
+                            <span id="current-room-code">------</span>
+                            <button class="btn-icon" id="btn-copy-code" title="Copy room code">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="connection-status" id="connection-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Waiting for peer...</span>
+                    </div>
+                    <button class="btn btn-danger btn-sm" id="btn-leave-room">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/>
+                        </svg>
+                        Leave
+                    </button>
+                </div>
+
+                <!-- File Drop Zone -->
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-zone-content">
+                        <div class="drop-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17,8 12,3 7,8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <h3>Drop files here</h3>
+                        <p>or click to browse</p>
+                        <input type="file" id="file-input" multiple hidden>
+                    </div>
+                    <div class="drop-zone-active">
+                        <span>Release to upload</span>
+                    </div>
+                </div>
+
+                <!-- Selected Files -->
+                <div class="selected-files" id="selected-files">
+                    <div class="files-header">
+                        <h4>Selected Files</h4>
+                        <button class="btn btn-sm btn-outline" id="btn-clear-files">Clear All</button>
+                    </div>
+                    <div class="files-list" id="files-list"></div>
+                    <button class="btn btn-primary btn-send" id="btn-send-files" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                        <span>Send Files</span>
+                    </button>
+                </div>
+
+                <!-- Transfer Progress -->
+                <div class="transfers-section" id="transfers-section">
+                    <h4>Transfers</h4>
+                    <div class="transfers-list" id="transfers-list"></div>
+                </div>
+
+                <!-- Received Files -->
+                <div class="received-section" id="received-section">
+                    <h4>Received Files</h4>
+                    <div class="received-list" id="received-list"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="privacy-notice">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span><strong>Privacy First:</strong> Your files never touch our servers. All transfers are direct P2P with end-to-end encryption.</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js" type="module"></script>
+</body>
+</html>
