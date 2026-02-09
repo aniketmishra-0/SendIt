@@ -47,6 +47,9 @@ const ThemeManager = {
 // Initialize theme on load
 ThemeManager.init();
 
+// Make ThemeManager globally accessible for onclick handler
+window.ThemeManager = ThemeManager;
+
 // ============================================
 // Configuration
 // ============================================

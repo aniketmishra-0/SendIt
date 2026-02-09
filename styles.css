@@ -351,7 +351,7 @@ body {
 
 .panel {
     width: 100%;
-    max-width: 850px;
+    max-width: 900px;
 }
 
 .glass-panel {
@@ -394,7 +394,7 @@ body {
 
 .option-card {
     flex: 1;
-    min-width: 220px;
+    min-width: 280px;
     display: flex;
     flex-direction: column;
     align-items: center;
